@@ -18,7 +18,7 @@ SHELL           = True
 WORKSIZE        = 4096
 RESERVE_HOST    = False
 DEFAULT_AFF     = []
-top_path = pathlib.Path("/Users/corey.adams/test_popen_forking/active_dir/")
+TOP_PATH        = pathlib.Path("/Users/corey.adams/test_popen_forking/active_dir/")
 #################################################
 
 
@@ -45,8 +45,8 @@ class job_spec(object):
 
 # This script will run Popens in new directories and run the add_array.py script repeatedly
 
-def prepare_directory(top_path):
-    this_path = top_path / str(uuid.uuid1())
+def prepare_directory(TOP_PATH):
+    this_path = TOP_PATH / str(uuid.uuid1())
     this_path.mkdir()
     return this_path
 
@@ -130,10 +130,10 @@ def main():
     if len(sys.argv) > 1:
         output_file = sys.argv[-1]
     else:
-        output_file = "output.pkl"
+        output_file = TOP_PATH / "output.pkl"
 
     # Make sure the top directory is available:
-    top_path.mkdir(exist_ok=True)
+    TOP_PATH.mkdir(exist_ok=True)
 
     # create a list of available CPUs, starting with all of them:
     available_cpus = list(range(N_CPUS))
@@ -153,7 +153,7 @@ def main():
 
         # Make sure enough jobs are running:
         while len(active_jobs) < MAX_CONCURRENT:
-            workdir = prepare_directory(top_path)
+            workdir = prepare_directory(TOP_PATH)
             available_cpus, job = spawn_process(available_cpus, workdir)
             active_jobs.append(job)
 
