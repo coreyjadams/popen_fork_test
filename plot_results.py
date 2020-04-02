@@ -2,7 +2,8 @@ import pickle
 from spawn_forks import job_spec
 
 
-with open("output.pkl", 'rb') as _f:
+outfile = "/projects/datascience/cadams/popen_fork_test/debugcache_1forks_150total_4096/output.pkl"
+with open(outfile, 'rb') as _f:
     finished_jobs = pickle.load(_f)
 
 

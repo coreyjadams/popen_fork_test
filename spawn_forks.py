@@ -11,14 +11,14 @@ from subprocess import Popen, STDOUT, TimeoutExpired
 
 #################################################
 #GLOBAL CONFIGURATION VARIABLES
-N_FORKS         = 1000
-MAX_CONCURRENT  = 8
-N_CPUS          = 8
+N_FORKS         = 150
+MAX_CONCURRENT  = 1
+N_CPUS          = 64
 SHELL           = True
 WORKSIZE        = 4096
 RESERVE_HOST    = False
 DEFAULT_AFF     = []
-TOP_PATH        = pathlib.Path("/Users/corey.adams/test_popen_forking/active_dir/")
+TOP_PATH        = pathlib.Path(f"/projects/datascience/cadams/popen_fork_test/debugcache_{MAX_CONCURRENT}forks_{N_FORKS}total_{WORKSIZE}/")
 #################################################
 
 
@@ -69,9 +69,9 @@ def spawn_process(available_cpus, workdir, size=WORKSIZE):
     _p = psutil.Process()
 
     # Set the affinity:
-    _p.cpu_affinity(job.used_cpu)
+    _p.cpu_affinity([job.used_cpu,])
 
-    args = [f'python /Users/corey.adams/test_popen_forking/array_add.py {size}']
+    args = [f'python /projects/datascience/cadams/popen_fork_test/array_add.py {size}']
 
 
     # Spawn a process:
