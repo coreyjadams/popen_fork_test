@@ -1,0 +1,16 @@
+#!/bin/sh
+#COBALT -t 60
+#COBALT -n 1
+#COBALT -q debug-cache-quad
+#COBALT -A datascience
+
+module unload trackdeps darshan xalt
+module switch PrgEnv-intel/6.0.5 PrgEnv-gnu
+module load cray-python/3.6.5.3
+
+aprun -n 1 -N 1 -cc none \
+python spawn_forks.py \
+--output-directory /projects/datascience/cadams/popen_fork_test/output_mpi/ \
+--max-concurrent 64 \
+--n-forks 10000 \
+--worksize 2048 
